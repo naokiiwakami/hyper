@@ -636,7 +636,7 @@ class HTTP20Connection(object):
         with self._lock:
             try:
                 self._sock.sendall(data)
-            except socket.error as e:
+            except OSError as e:
                 if (not tolerate_peer_gone or
                         e.errno not in (errno.EPIPE, errno.ECONNRESET)):
                     raise
@@ -802,7 +802,7 @@ class HTTP20Connection(object):
                         continue
                     else:
                         raise
-                except socket.error as e:  # pragma: no cover
+                except OSError as e:  # pragma: no cover
                     if e.errno in (errno.EINTR, errno.EAGAIN):
                         # if 'interrupted' or 'try again', continue
                         time.sleep(retry_wait)
